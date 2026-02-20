@@ -10,6 +10,8 @@ import com.models.Notifica;
 import com.repositories.NotificaRepository;
 import com.utilities.BaseService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class NotificaService implements BaseService<Notifica, Long> {
 
@@ -17,6 +19,7 @@ public class NotificaService implements BaseService<Notifica, Long> {
 	private NotificaRepository notificaRepo;
 	
 	@Override
+	@Transactional
 	public Notifica save(Notifica entity) {
 		// TODO Auto-generated method stub
 		return notificaRepo.save(entity);

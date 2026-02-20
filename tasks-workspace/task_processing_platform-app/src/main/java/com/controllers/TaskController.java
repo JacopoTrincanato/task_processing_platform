@@ -51,12 +51,10 @@ public class TaskController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Task> eliminaTask(@Valid @RequestBody Task task, @PathVariable Long id) {
-		if (service.findById(id).isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	public void eliminaTask(@Valid @PathVariable Long id) {
+		if (service.findById(id).isPresent()) {
+			service.delete(id);
 		}
-		service.delete(id);
-		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	/*@PostMapping("/{id}/process")

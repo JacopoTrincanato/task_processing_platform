@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -45,6 +46,9 @@ public class Task {
 	@ManyToOne
 	@JoinColumn(name = "progetto_id", nullable = false)
 	private Progetto progetto;
+	
+	@Version
+	private Long version;
 	
 	public boolean isScaduto() {
 		return this.deadLine.isBefore(LocalDate.now());

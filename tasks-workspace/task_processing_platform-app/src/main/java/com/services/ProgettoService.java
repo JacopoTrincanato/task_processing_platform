@@ -10,6 +10,8 @@ import com.models.Progetto;
 import com.repositories.ProgettoRepository;
 import com.utilities.BaseService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ProgettoService implements BaseService<Progetto, Long> {
 	
@@ -17,6 +19,7 @@ public class ProgettoService implements BaseService<Progetto, Long> {
 	private ProgettoRepository progettoRepo;
 
 	@Override
+	@Transactional
 	public Progetto save(Progetto entity) {
 		// TODO Auto-generated method stub
 		return progettoRepo.save(entity);

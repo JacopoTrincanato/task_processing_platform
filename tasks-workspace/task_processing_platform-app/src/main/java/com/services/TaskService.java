@@ -16,6 +16,8 @@ import com.repositories.TaskRepository;
 import com.utilities.BaseService;
 import com.utilities.TaskProcessor;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class TaskService implements BaseService<Task, Long> {
 
@@ -29,6 +31,7 @@ public class TaskService implements BaseService<Task, Long> {
 	private TaskProcessor processor;
 	
 	@Override
+	@Transactional
 	public Task save(Task entity) {
 		// TODO Auto-generated method stub
 		return taskRepo.save(entity);
@@ -52,15 +55,12 @@ public class TaskService implements BaseService<Task, Long> {
 		taskRepo.deleteById(id);
 	}
 	
+	@Transactional
 	public Task completaTask(Long id) {
-		List<Task> tasksNonProcessate = taskRepo.findAll().stream()
-				.filter(t -> t.getStato() != Stato.DONE)
-				.toList();
+		Task taskDaProcessare = taskRepo.findById(id).orElse(null);
 		
-		Task taskDaProcessare = taskRepo.findById(id).get();
-		
-		if (tasksNonProcessate.contains(taskDaProcessare)) {
-			processor.process(taskDaProcessare);
+		if (taskDaProcessare.getStato() != Stato.DONE) {
+			processor.submit(taskDaProcessare);
 		}
 		
 		taskRepo.save(taskDaProcessare);
@@ -79,7 +79,7 @@ public class TaskService implements BaseService<Task, Long> {
 		long numeroDiTaskCompletate = progettoDaEsaminare.getTasks().stream()
 				.filter(t -> t.getStato() == Stato.DONE)
 				.count();
-		double percentualeCompletata = (double) (numeroDiTaskCompletate / progettoDaEsaminare.getTasks().size()) * 100;
+		double percentualeCompletata = (double) numeroDiTaskCompletate / progettoDaEsaminare.getTasks().size() * 100;
 		return percentualeCompletata;
 		
 	}
