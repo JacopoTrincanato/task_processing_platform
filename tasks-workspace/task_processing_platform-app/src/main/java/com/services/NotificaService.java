@@ -37,5 +37,9 @@ public class NotificaService implements BaseService<Notifica, Long> {
 		// TODO Auto-generated method stub
 		notificaRepo.deleteById(id);
 	}
+	
+	public String inviaNotifica(String notifica) {
+		return notifica;
+	}
 
 }

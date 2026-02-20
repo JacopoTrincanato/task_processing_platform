@@ -53,5 +53,61 @@ public class Task {
 	public void completa() {
 		this.stato = Stato.DONE;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTitolo() {
+		return titolo;
+	}
+
+	public void setTitolo(String titolo) {
+		this.titolo = titolo;
+	}
+
+	public String getDescrizione() {
+		return descrizione;
+	}
+
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
+	}
+
+	public Stato getStato() {
+		return stato;
+	}
+
+	public void setStato(Stato stato) {
+		this.stato = stato;
+	}
+
+	public Priorita getPriorita() {
+		return priorita;
+	}
+
+	public void setPriorita(Priorita priorita) {
+		this.priorita = priorita;
+	}
+
+	public LocalDate getDeadLine() {
+		return deadLine;
+	}
+
+	public void setDeadLine(LocalDate deadLine) {
+		this.deadLine = deadLine;
+	}
+
+	public Progetto getProgetto() {
+		return progetto;
+	}
+
+	public void setProgetto(Progetto progetto) {
+		this.progetto = progetto;
+	}
 	
 }
