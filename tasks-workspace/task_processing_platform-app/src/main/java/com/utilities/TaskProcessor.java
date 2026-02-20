@@ -3,6 +3,8 @@ package com.utilities;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.enums.Stato;
 import com.models.Task;
 import com.services.NotificaService;
@@ -11,6 +13,8 @@ public class TaskProcessor implements Processor<Task> {
 
 	private final ExecutorService executor;
 	private final BlockingQueue<Task> queue;
+	
+	@Autowired
 	private final NotificaService notificaService;
 	
 	public void submit(Task t) {
@@ -26,10 +30,18 @@ public class TaskProcessor implements Processor<Task> {
 	@Override
 	public void process(Task item) {
 		// TODO Auto-generated method stub
-		item.setStato(Stato.IN_PROGRESS);
-		Thread.sleep(3000);
+		if (item.getStato() == Stato.TODO) {
+			item.setStato(Stato.IN_PROGRESS);
+		}
+		
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		item.setStato(Stato.DONE);
-		notificaService.inviaNotifica("Task " + item.getTitolo() + " completato")
+		notificaService.inviaNotifica("Task " + item.getTitolo() + " completato");
 	}
 	
 	private void consume() {

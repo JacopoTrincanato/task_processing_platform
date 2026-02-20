@@ -5,6 +5,12 @@ public final class TaskDTO {
 	private final String titolo;
 	private final String stato;
 	
+	public TaskDTO(Long id, String titolo, String stato) {
+		// TODO Auto-generated constructor stub
+		this.id = id;
+		this.titolo = titolo;
+		this.stato = stato;
+	}
 	public Long getId() {
 		return id;
 	}
