@@ -2,9 +2,9 @@ package com.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.DTO.TaskDTO;
 import com.enums.Stato;
@@ -16,6 +16,7 @@ import com.repositories.TaskRepository;
 import com.utilities.BaseService;
 import com.utilities.TaskProcessor;
 
+@Service
 public class TaskService implements BaseService<Task, Long> {
 
 	@Autowired
@@ -52,14 +53,17 @@ public class TaskService implements BaseService<Task, Long> {
 	}
 	
 	public Task completaTask(Long id) {
-		List<Task> tasksDaProcessare = taskRepo.findAll().stream()
+		List<Task> tasksNonProcessate = taskRepo.findAll().stream()
 				.filter(t -> t.getStato() != Stato.DONE)
 				.toList();
 		
-		Task taskDaProcessare = tasksDaProcessare.get(Integer.valueOf(id.toString()));
+		Task taskDaProcessare = taskRepo.findById(id).get();
 		
-		processor.process(taskDaProcessare);
+		if (tasksNonProcessate.contains(taskDaProcessare)) {
+			processor.process(taskDaProcessare);
+		}
 		
+		taskRepo.save(taskDaProcessare);
 		return taskDaProcessare;
 	}
 	
@@ -75,7 +79,7 @@ public class TaskService implements BaseService<Task, Long> {
 		long numeroDiTaskCompletate = progettoDaEsaminare.getTasks().stream()
 				.filter(t -> t.getStato() == Stato.DONE)
 				.count();
-		double percentualeCompletata = (numeroDiTaskCompletate / progettoDaEsaminare.getTasks().size()) * 100;
+		double percentualeCompletata = (double) (numeroDiTaskCompletate / progettoDaEsaminare.getTasks().size()) * 100;
 		return percentualeCompletata;
 		
 	}

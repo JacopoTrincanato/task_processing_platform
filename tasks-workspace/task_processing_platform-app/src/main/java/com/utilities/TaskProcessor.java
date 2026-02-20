@@ -2,21 +2,26 @@ package com.utilities;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.enums.Stato;
 import com.models.Task;
 import com.services.NotificaService;
 
+@Component
 public class TaskProcessor implements Processor<Task> {
 
 	private final ExecutorService executor;
 	private final BlockingQueue<Task> queue;
-	
-	@Autowired
 	private final NotificaService notificaService;
 	
+	public TaskProcessor(ExecutorService executor, BlockingQueue<Task> queue, NotificaService notificaService) {
+		super();
+		this.executor = executor;
+		this.queue = queue;
+		this.notificaService = notificaService;
+	}
+
 	public void submit(Task t) {
 		queue.offer(t);
 	}

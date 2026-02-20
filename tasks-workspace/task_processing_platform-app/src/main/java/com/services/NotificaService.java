@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.models.Notifica;
 import com.repositories.NotificaRepository;
 import com.utilities.BaseService;
 
+@Service
 public class NotificaService implements BaseService<Notifica, Long> {
 
 	@Autowired

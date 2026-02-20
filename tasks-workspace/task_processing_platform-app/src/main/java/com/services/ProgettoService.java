@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.models.Progetto;
 import com.repositories.ProgettoRepository;
 import com.utilities.BaseService;
 
+@Service
 public class ProgettoService implements BaseService<Progetto, Long> {
 	
 	@Autowired
