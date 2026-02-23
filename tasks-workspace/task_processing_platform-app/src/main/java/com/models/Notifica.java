@@ -28,6 +28,14 @@ public class Notifica {
 	
 	@NotNull
 	private LocalDateTime dataInvio;
+	
+	
+
+	public Notifica(String destinatario,String messaggio) {
+		this.destinatario = destinatario;
+		this.messaggio = messaggio;
+		this.dataInvio = LocalDateTime.now();
+	}
 
 	public Long getId() {
 		return id;

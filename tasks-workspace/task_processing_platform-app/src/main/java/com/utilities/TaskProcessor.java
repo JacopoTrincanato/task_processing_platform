@@ -8,6 +8,8 @@ import com.enums.Stato;
 import com.models.Task;
 import com.services.NotificaService;
 
+import jakarta.annotation.PostConstruct;
+
 @Component
 public class TaskProcessor implements Processor<Task> {
 
@@ -46,11 +48,11 @@ public class TaskProcessor implements Processor<Task> {
 			e.printStackTrace();
 		}
 		item.setStato(Stato.DONE);
-		notificaService.inviaNotifica("Task " + item.getTitolo() + " completato");
+		notificaService.inviaNotifica("Gentile utente", "Task " + item.getTitolo() + " completato");
 	}
 	
 	private void consume() {
-		while(true) {
+		while(!Thread.currentThread().isInterrupted()) {
 			Task task = new Task();
 			try {
 				task = queue.take();
@@ -60,6 +62,11 @@ public class TaskProcessor implements Processor<Task> {
 			}
 			process(task);
 		}
+	}
+	
+	@PostConstruct
+	public void init() {
+	    start();
 	}
 
 }

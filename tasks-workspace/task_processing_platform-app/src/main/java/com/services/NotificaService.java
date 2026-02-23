@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.models.Notifica;
 import com.repositories.NotificaRepository;
@@ -17,6 +18,9 @@ public class NotificaService implements BaseService<Notifica, Long> {
 
 	@Autowired
 	private NotificaRepository notificaRepo;
+	
+	@Autowired
+	private RestTemplate restTemplate;
 	
 	@Override
 	@Transactional
@@ -43,8 +47,8 @@ public class NotificaService implements BaseService<Notifica, Long> {
 		notificaRepo.deleteById(id);
 	}
 	
-	public String inviaNotifica(String notifica) {
-		return notifica;
+	public Notifica inviaNotifica(String destinatario, String messaggio) {
+		return new Notifica(destinatario, messaggio);
 	}
 
 }

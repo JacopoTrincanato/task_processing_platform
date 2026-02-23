@@ -76,10 +76,10 @@ public class TaskService implements BaseService<Task, Long> {
 	
 	public double percentualeCompletamento(Long idProgetto) {
 		Progetto progettoDaEsaminare = progettoRepo.findById(idProgetto).get();
-		long numeroDiTaskCompletate = progettoDaEsaminare.getTasks().stream()
+		List<Task> tasks = progettoDaEsaminare.getTasks();
+		double percentualeCompletata = tasks.stream()
 				.filter(t -> t.getStato() == Stato.DONE)
-				.count();
-		double percentualeCompletata = (double) numeroDiTaskCompletate / progettoDaEsaminare.getTasks().size() * 100;
+				.count() * 100 / tasks.size();
 		return percentualeCompletata;
 		
 	}
